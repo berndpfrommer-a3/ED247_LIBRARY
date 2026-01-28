@@ -67,6 +67,10 @@ add_library(ed247 SHARED)
 add_library(Ed247::ed247 ALIAS ed247)
 target_link_libraries(ed247 PUBLIC ed247_objects)
 set_target_properties(ed247 PROPERTIES PUBLIC_HEADER ed247.h)
+target_sources(ed247 PUBLIC FILE_SET HEADERS
+  FILES
+     ed247_logs.h
+     ed247_friend_test.h)
 
 # ED247 static library definition
 add_library(ed247_static STATIC)
@@ -103,6 +107,7 @@ endif()
 install(TARGETS ed247 ed247_static
                                      DESTINATION ${PLATFORM_INSTALL_SUBDIR}${INSTALL_LIBDIR}
   PUBLIC_HEADER                      DESTINATION ${PLATFORM_INSTALL_SUBDIR}include
+  FILE_SET HEADERS DESTINATION include # to also add necessary private headers
 )
 install(FILES ./xsd/ED247A_ECIC.xsd  DESTINATION doc/xsd)
 install(FILES ./xsd/ED247A_ECD.xsd   DESTINATION doc/xsd)
