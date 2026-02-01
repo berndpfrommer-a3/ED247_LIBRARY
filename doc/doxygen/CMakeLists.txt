@@ -1,6 +1,6 @@
 find_package(Doxygen)
 if (NOT Doxygen_FOUND)
-  message(WARNING "Doxygen not found. API Documentation will not be generated!")
+  message(STATUS "Doxygen not found. API Documentation will not be generated!")
   return()
 endif()
 

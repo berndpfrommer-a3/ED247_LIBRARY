@@ -83,7 +83,7 @@ set_target_properties(ed247_static PROPERTIES PUBLIC_HEADER ed247.h)
 # Generate XSD header file containing the XSD as a string
 macro(_generate_xsd_header _XSD_PATH _XSD_FILENAME _HEADER_FILEPATH _VAR_NAME)
   if(${_XSD_PATH}/${_XSD_FILENAME} IS_NEWER_THAN ${_HEADER_FILEPATH})
-    message("Generate ${_HEADER_FILEPATH}...")
+    # message("Generate ${_HEADER_FILEPATH}...")
     file(READ ${_XSD_PATH}/${_XSD_FILENAME} XSD_CONTENT)
     string(REPLACE "\\" "\\\\" XSD_CONTENT ${XSD_CONTENT})
     string(REPLACE "\"" "\\\"" XSD_CONTENT ${XSD_CONTENT})
