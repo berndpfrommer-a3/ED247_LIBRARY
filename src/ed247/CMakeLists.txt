@@ -22,6 +22,10 @@
 # DEALINGS IN THE SOFTWARE.                                                   #
 ###############################################################################
 # Special object target that will also be used by unitary tests
+
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+
 add_library(ed247_objects OBJECT
     ed247_logs.cpp
     ed247_time.cpp
@@ -104,10 +108,31 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(INSTALL_LIBDIR bin)
 endif()
 
-install(TARGETS ed247 ed247_static
-                                     DESTINATION ${PLATFORM_INSTALL_SUBDIR}${INSTALL_LIBDIR}
-  PUBLIC_HEADER                      DESTINATION ${PLATFORM_INSTALL_SUBDIR}include
+set(export_target_name ed247)
+install(TARGETS ed247_objects ed247 ed247_static
+  EXPORT ${export_target_name}Targets
+  LIBRARY DESTINATION ${PLATFORM_INSTALL_SUBDIR}${INSTALL_LIBDIR}
+  PUBLIC_HEADER    DESTINATION ${PLATFORM_INSTALL_SUBDIR}include
   FILE_SET HEADERS DESTINATION include # to also add necessary private headers
 )
 install(FILES ./xsd/ED247A_ECIC.xsd  DESTINATION doc/xsd)
 install(FILES ./xsd/ED247A_ECD.xsd   DESTINATION doc/xsd)
+
+write_basic_package_version_file(
+  ${export_target_name}ConfigVersion.cmake
+  VERSION ${PACKAGE_VERSION}
+  COMPATIBILITY AnyNewerVersion)
+
+# generate the *Config.cmake file
+configure_file(cmake/${export_target_name}Config.cmake.in ${export_target_name}Config.cmake @ONLY)
+
+# generate Targets.cmake file from exports learned during the installation
+install(EXPORT ${export_target_name}Targets
+  FILE ${export_target_name}Targets.cmake
+  NAMESPACE ${export_target_name}::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${export_target_name})
+
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/${export_target_name}Config.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/${export_target_name}ConfigVersion.cmake"
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${export_target_name})
