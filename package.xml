@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>ed247_libary</name>
+  <name>ed247</name>
   <version>1.0.0</version>
   <description>ed247 library reference implementation</description>
   <maintainer email="bernd.pfrommer-external@airbus-sv.com">Bernd Pfrommer</maintainer>
@@ -8,5 +8,4 @@
   <export>
     <build_type>cmake</build_type>
   </export>
-
 </package>
